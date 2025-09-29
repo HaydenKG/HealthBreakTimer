@@ -125,8 +125,6 @@
       <div class="contentPanel">
         <p>What is the intervall you want to be reminded by?</p>
         <form id="intervalSetup">
-          <label>10 min</label>
-          <input type="radio" name="interval" value="10" checked>
           <label>40 min</label>
           <input type="radio" name="interval" value="40" checked>
           <label>60 min</label>
@@ -148,6 +146,10 @@
       </div>
     </div>
     <button id="setupNextButton" class="primary_btn" style="display: none;">Next</button>
+  </div>
+  <div id="footer">
+    <label for="timeUntilNextBreak">Next break in:</label>
+    <progress id="timeUntilNextBreak" max="100" value="0">Next break</progress>
   </div>
   <button onClick="getNextBreakTime()" style="display: none;">Test</button>
   <script src="./JS/setupHelper.js"></script>
