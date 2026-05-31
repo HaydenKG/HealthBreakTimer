@@ -10,13 +10,13 @@ import {
 import { useState } from 'react';
 import type { BackgroundConfig } from './backgroundConfig';
 import { STATIC_COLORS } from './backgroundConfig';
-import { GLASS_COLOR } from './styles';
+import { GLASS_COLOR, GLASS_BORDER } from './styles';
 
 interface BackgroundConfigMenuProps {
   config: BackgroundConfig;
   onChange: (config: BackgroundConfig) => void;
   onRefresh: () => void;
-  sideBarOpen: Boolean;
+  sideBarOpen: boolean;
 }
 
 const menuPaperSx = {
