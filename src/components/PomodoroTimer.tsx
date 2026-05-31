@@ -20,7 +20,7 @@ function getDevSpeed(): number {
   return Number.isFinite(n) && n > 0 ? n : 1;
 }
 
-const WORK_DONE_SOUND = '/sounds/Instrument.wav';
+const WORK_DONE_SOUND = `${import.meta.env.BASE_URL}/sounds/Instrument.wav`;
 
 function playWorkDoneSound() {
   const audio = new Audio(WORK_DONE_SOUND);

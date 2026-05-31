@@ -121,6 +121,11 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
           }
         }
       } else {
+        if (currentStep.type === 'eyes-closed') {
+          new Audio(`${import.meta.env.BASE_URL}sounds/ShadowSoft.wav`)
+            .play()
+            .catch(() => {});
+        }
         advanceStep();
       }
     }, 0);
@@ -250,7 +255,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
           '&:hover': { opacity: 0.8 }
         }}
       >
-        Leave break
+        Leave guided break
       </Typography>
     </Box>
   );
