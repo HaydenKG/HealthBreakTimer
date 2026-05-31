@@ -1,13 +1,14 @@
 import { Grid, Divider } from '@mui/material';
 import { TodoList } from './TodoList';
-import { PomodoroTimer } from './PomodoroTimer';
+import { PomodoroTimer, usePomodoroTimer } from './PomodoroTimer';
 import { GLASS_COLOR } from './styles';
 
 interface SidebarProps {
   onStartActiveBreak?: () => void;
+  timerState: ReturnType<typeof usePomodoroTimer>;
 }
 
-export function Sidebar({ onStartActiveBreak }: SidebarProps) {
+export function Sidebar({ onStartActiveBreak, timerState }: SidebarProps) {
   return (
     <Grid
       size={3}
@@ -22,7 +23,7 @@ export function Sidebar({ onStartActiveBreak }: SidebarProps) {
         overflowY: 'auto'
       }}
     >
-      <PomodoroTimer onStartActiveBreak={onStartActiveBreak} />
+      <PomodoroTimer {...timerState} onStartActiveBreak={onStartActiveBreak} />
       <Divider sx={{ borderColor: 'rgba(255,255,255,0.1)', my: 1 }} />
       <TodoList />
     </Grid>

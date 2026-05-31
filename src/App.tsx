@@ -4,7 +4,7 @@ import './App.css';
 import { ActiveBreak } from './components/ActiveBreak';
 import { AppBackground } from './components/AppBackground';
 import { BackgroundConfigMenu } from './components/BackgroundConfigMenu';
-import { PomodoroTimer } from './components/PomodoroTimer';
+import { PomodoroTimer, usePomodoroTimer } from './components/PomodoroTimer';
 import { Sidebar } from './components/Sidebar';
 import { SidebarToggleButton } from './components/SidebarToggleButton';
 import { GLASS_COLOR } from './components/styles';
@@ -20,6 +20,7 @@ function App() {
   const [bgConfig, setBgConfig] =
     useState<BackgroundConfig>(loadBackgroundConfig);
   const [refreshKey, setRefreshKey] = useState(0);
+  const timerState = usePomodoroTimer();
 
   const [timerLayout, setTimerLayout] = useState<TimerLayout>(() => {
     return (
@@ -79,13 +80,17 @@ function App() {
               }}
             >
               <PomodoroTimer
+                {...timerState}
                 onStartActiveBreak={() => setActiveBreakOpen(true)}
               />
             </Box>
           )}
         </Grid>
         {timerLayout === 'sidebar' && (
-          <Sidebar onStartActiveBreak={() => setActiveBreakOpen(true)} />
+          <Sidebar
+            timerState={timerState}
+            onStartActiveBreak={() => setActiveBreakOpen(true)}
+          />
         )}
       </Grid>
 

@@ -29,16 +29,12 @@ function playWorkDoneSound() {
   });
 }
 
-interface PomodoroTimerProps {
-  onStartActiveBreak?: () => void;
-}
-
 const PRESETS: Record<PresetKey, { work: number; rest: number }> = {
   '25:5': { work: 25, rest: 5 },
   '50:10': { work: 50, rest: 10 }
 };
 
-export function PomodoroTimer({ onStartActiveBreak }: PomodoroTimerProps) {
+export function usePomodoroTimer() {
   const [selectedPreset, setSelectedPreset] = useState<PresetKey>('25:5');
   const [workMinutes, setWorkMinutes] = useState(25);
   const [breakMinutes, setBreakMinutes] = useState(5);
@@ -105,6 +101,39 @@ export function PomodoroTimer({ onStartActiveBreak }: PomodoroTimerProps) {
     setRemainingSeconds(workMinutes * 60);
   }, [workMinutes]);
 
+  return {
+    selectedPreset,
+    workMinutes,
+    breakMinutes,
+    phase,
+    timerActive,
+    remainingSeconds,
+    showBreakPrompt,
+    setShowBreakPrompt,
+    applyPreset,
+    toggleTimer,
+    resetTimer
+  };
+}
+
+interface PomodoroTimerProps extends ReturnType<typeof usePomodoroTimer> {
+  onStartActiveBreak?: () => void;
+}
+
+export function PomodoroTimer({
+  onStartActiveBreak,
+  selectedPreset,
+  workMinutes,
+  breakMinutes,
+  phase,
+  timerActive,
+  remainingSeconds,
+  showBreakPrompt,
+  setShowBreakPrompt,
+  applyPreset,
+  toggleTimer,
+  resetTimer
+}: PomodoroTimerProps) {
   function formatTime(totalSeconds: number) {
     const clamped = Math.max(0, Math.floor(totalSeconds));
     const minutes = Math.floor(clamped / 60);
@@ -206,7 +235,7 @@ export function PomodoroTimer({ onStartActiveBreak }: PomodoroTimerProps) {
             }}
           >
             Take a guided break now
-          </Button>{' '}
+          </Button>
         </>
       )}
 
