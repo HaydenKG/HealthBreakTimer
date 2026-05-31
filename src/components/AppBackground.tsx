@@ -135,63 +135,60 @@ export function AppBackground({ config, refreshKey }: AppBackgroundProps) {
           zIndex: 0
         }}
       >
+        {/* green-teal blob */}
         <Box
           sx={{
             position: 'absolute',
-            width: '120%',
-            height: '50%',
-            top: '15%',
-            left: '-10%',
-            background:
-              'linear-gradient(180deg, transparent 0%, rgba(0,240,140,0.18) 35%, rgba(0,210,120,0.28) 55%, rgba(0,160,100,0.12) 75%, transparent 100%)',
-            filter: 'blur(25px)',
-            animation: 'auroraWave1 18s ease-in-out infinite',
-            '@keyframes auroraWave1': {
-              '0%, 100%': {
-                transform: 'translateY(0) scaleX(1)',
-                opacity: 0.85
-              },
-              '50%': { transform: 'translateY(-8vh) scaleX(1.08)', opacity: 1 }
-            }
-          }}
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            width: '110%',
-            height: '45%',
-            top: '22%',
-            left: '-5%',
-            background:
-              'linear-gradient(180deg, transparent 0%, rgba(40,160,255,0.12) 40%, rgba(80,80,220,0.2) 60%, transparent 100%)',
-            filter: 'blur(35px)',
-            animation: 'auroraWave2 24s ease-in-out infinite',
-            '@keyframes auroraWave2': {
-              '0%, 100%': {
-                transform: 'translateY(3vh) scaleX(0.97)',
-                opacity: 0.7
-              },
-              '60%': {
-                transform: 'translateY(-5vh) scaleX(1.04)',
-                opacity: 0.9
-              }
-            }
-          }}
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            width: '80%',
-            height: '30%',
+            width: '120vw',
+            height: '55vh',
             top: '10%',
-            left: '10%',
+            left: '-10vw',
+            borderRadius: '50%',
             background:
-              'linear-gradient(180deg, transparent 0%, rgba(180,255,200,0.06) 50%, transparent 100%)',
-            filter: 'blur(20px)',
-            animation: 'auroraShimmer 12s ease-in-out infinite',
-            '@keyframes auroraShimmer': {
-              '0%, 100%': { opacity: 0.5, transform: 'translateX(0)' },
-              '50%': { opacity: 1, transform: 'translateX(5vw)' }
+              'radial-gradient(ellipse, rgba(0,220,120,0.22) 0%, transparent 70%)',
+            filter: 'blur(70px)',
+            animation: 'auroraBlob1 20s ease-in-out infinite',
+            '@keyframes auroraBlob1': {
+              '0%, 100%': { transform: 'translate(0, 0) scaleX(1)' },
+              '50%': { transform: 'translate(15vw, -8vh) scaleX(1.1)' }
+            }
+          }}
+        />
+        {/* blue-violet blob */}
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '110vw',
+            height: '55vh',
+            top: '15%',
+            left: '-5vw',
+            borderRadius: '50%',
+            background:
+              'radial-gradient(ellipse, rgba(60,100,255,0.18) 0%, transparent 70%)',
+            filter: 'blur(90px)',
+            animation: 'auroraBlob2 26s ease-in-out infinite',
+            '@keyframes auroraBlob2': {
+              '0%, 100%': { transform: 'translate(0, 0) scaleX(0.95)' },
+              '60%': { transform: 'translate(-5vw, 5vh) scaleX(1.08)' }
+            }
+          }}
+        />
+        {/* soft white-green shimmer */}
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100vw',
+            height: '40vh',
+            top: '12%',
+            left: '0vw',
+            borderRadius: '50%',
+            background:
+              'radial-gradient(ellipse, rgba(160,255,200,0.1) 0%, transparent 70%)',
+            filter: 'blur(60px)',
+            animation: 'auroraBlob3 14s ease-in-out infinite',
+            '@keyframes auroraBlob3': {
+              '0%, 100%': { transform: 'translate(0, 0)' },
+              '50%': { transform: 'translate(20vw, -4vh)' }
             }
           }}
         />
