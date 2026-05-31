@@ -7,6 +7,7 @@ import {
   Divider
 } from '@mui/material';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { GLASS_BORDER } from './styles';
 
 type PresetKey = '25:5' | '50:10';
 
@@ -157,7 +158,7 @@ export function PomodoroTimer({
                 selectedPreset === key
                   ? 'rgba(255,255,255,0.15)'
                   : 'transparent',
-              '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
+              '&:hover': { bgcolor: GLASS_BORDER }
             }}
           >
             {key}

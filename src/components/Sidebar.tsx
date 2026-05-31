@@ -1,7 +1,7 @@
 import { Grid, Divider } from '@mui/material';
 import { TodoList } from './TodoList';
 import { PomodoroTimer, usePomodoroTimer } from './PomodoroTimer';
-import { GLASS_COLOR } from './styles';
+import { GLASS_COLOR, GLASS_BORDER } from './styles';
 
 interface SidebarProps {
   onStartActiveBreak?: () => void;
@@ -24,7 +24,7 @@ export function Sidebar({ onStartActiveBreak, timerState }: SidebarProps) {
       }}
     >
       <PomodoroTimer {...timerState} onStartActiveBreak={onStartActiveBreak} />
-      <Divider sx={{ borderColor: 'rgba(255,255,255,0.1)', my: 1 }} />
+      <Divider sx={{ borderColor: GLASS_BORDER, my: 1 }} />
       <TodoList />
     </Grid>
   );

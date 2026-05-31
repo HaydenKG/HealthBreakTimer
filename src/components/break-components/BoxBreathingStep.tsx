@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { BOX_BREATH_PHASES, getBreathPhaseDuration } from './helpers';
+import { GLASS_BORDER } from '../styles';
 
 interface BoxBreathingStepProps {
   breathRound: number;
@@ -55,8 +56,7 @@ export function BoxBreathingStep({
             position: 'absolute',
             inset: 0,
             borderRadius: 2,
-            background:
-              'conic-gradient(rgba(80,220,120,0.9) var(--progress), rgba(255,255,255,0.1) 0%)',
+            background: `conic-gradient(rgba(80,220,120,0.9) var(--progress), ${GLASS_BORDER} 0%)`,
             '--progress': initialProgress,
             animation,
             '@keyframes borderTraceIn': {

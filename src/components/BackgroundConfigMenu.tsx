@@ -23,7 +23,7 @@ const menuPaperSx = {
   bgcolor: 'rgba(20, 20, 20, 0.88)',
   backdropFilter: 'blur(16px)',
   color: 'white',
-  border: '1px solid rgba(255,255,255,0.1)',
+  border: `1px solid ${GLASS_BORDER}`,
   minWidth: 210,
   borderRadius: 2
 };
