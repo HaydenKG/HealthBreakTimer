@@ -23,7 +23,6 @@ interface TickMessage {
 
 let intervalId: ReturnType<typeof setInterval> | null = null;
 let remainingSeconds: number = 0;
-let isActive: boolean = false;
 let devSpeed: number = 1;
 
 function postTick() {
@@ -36,14 +35,12 @@ function postTick() {
 
 function startTimer() {
   if (intervalId) clearInterval(intervalId);
-  isActive = true;
 
   intervalId = setInterval(() => {
     remainingSeconds = Math.max(0, remainingSeconds - devSpeed);
     postTick();
 
     if (remainingSeconds === 0) {
-      isActive = false;
       stopTimer()
     }
   }, 1000);
@@ -53,7 +50,6 @@ function startTimer() {
 }
 
 function stopTimer() {
-  isActive = false;
   if (intervalId) {
     clearInterval(intervalId);
     intervalId = null;
