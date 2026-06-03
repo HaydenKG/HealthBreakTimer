@@ -19,7 +19,7 @@ export function getStepLabel(step: BreakStep): string {
 
 export const BREAK_STEPS: BreakStep[] = [
   { type: 'eyes-closed', duration: 15 },
-  { type: 'look-distance', duration: 20 },
+  { type: 'look-distance', duration: 15 },
   { type: 'box-breathing', rounds: 3 },
   {
     type: 'body-prompt',

@@ -99,6 +99,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
   // Handle countdown reaching 0
   useEffect(() => {
     if (secondsLeft !== 0) return;
+    if (!stepStarted) return;
     if (!currentStep) return;
     if (currentStep.type === 'body-prompt') return;
 
@@ -121,7 +122,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
           }
         }
       } else {
-        if (currentStep.type === 'eyes-closed') {
+        if (['eyes-closed', 'look-distance'].includes(currentStep.type)) {
           new Audio(`${import.meta.env.BASE_URL}sounds/ShadowSoft.wav`)
             .play()
             .catch(() => {});
@@ -130,7 +131,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
       }
     }, 0);
     return () => clearTimeout(timeout);
-  }, [secondsLeft, currentStep, breathPhaseIndex, breathRound, advanceStep]);
+  }, [secondsLeft, stepStarted, currentStep, breathPhaseIndex, breathRound, advanceStep]);
 
   const totalSteps = BREAK_STEPS.length;
   const progress = (stepIndex / totalSteps) * 100;
