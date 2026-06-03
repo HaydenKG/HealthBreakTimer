@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { GLASS_BORDER } from './styles';
+import TimerWorker from './timeWorker?worker';
 
 type PresetKey = '25:5' | '50:10';
 
@@ -43,25 +44,38 @@ export function usePomodoroTimer() {
   const [timerActive, setTimerActive] = useState(false);
   const [remainingSeconds, setRemainingSeconds] = useState(25 * 60);
   const [showBreakPrompt, setShowBreakPrompt] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const workerRef = useRef<Worker | null>(null);
 
+  // Initialize worker on mount
   useEffect(() => {
-    if (!timerActive) {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      intervalRef.current = null;
-      return;
-    }
-
-    intervalRef.current = setInterval(() => {
-      const speed = getDevSpeed();
-      setRemainingSeconds((prev) => (prev <= speed ? 0 : prev - speed));
-    }, 1000);
-
+    workerRef.current = new TimerWorker();
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (workerRef.current) {
+        workerRef.current.terminate();
+      }
     };
-  }, [timerActive]);
+  }, []);
 
+  // Listen to worker messages
+  useEffect(() => {
+    const worker = workerRef.current;
+    if (!worker) return;
+
+    const handleMessage = (event: MessageEvent) => {
+      const { type, remainingSeconds: newRemainingSeconds } = event.data;
+
+      if (type === 'tick') {
+        setRemainingSeconds(newRemainingSeconds);
+      }
+    };
+
+    worker.addEventListener('message', handleMessage);
+    return () => {
+      worker.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
+  // Handle timer completion
   useEffect(() => {
     if (remainingSeconds === 0 && timerActive) {
       const timeout = setTimeout(() => {
@@ -70,10 +84,23 @@ export function usePomodoroTimer() {
           setShowBreakPrompt(true);
           setPhase('break');
           setRemainingSeconds(breakMinutes * 60);
+          // Reset to break time and resume countdown
+          if (workerRef.current) {
+            workerRef.current.postMessage({
+              action: 'start',
+              remainingSeconds: breakMinutes * 60,
+              devSpeed: getDevSpeed()
+            });
+          }
         } else {
           setShowBreakPrompt(false);
           setPhase('work');
+          setTimerActive(false);
           setRemainingSeconds(workMinutes * 60);
+          // Stop the timer and wait for user to manually start
+          if (workerRef.current) {
+            workerRef.current.postMessage({ action: 'stop' });
+          }
         }
       }, 0);
       return () => clearTimeout(timeout);
@@ -89,17 +116,47 @@ export function usePomodoroTimer() {
     setTimerActive(false);
     setShowBreakPrompt(false);
     setRemainingSeconds(next.work * 60);
+    // Stop the worker
+    if (workerRef.current) {
+      workerRef.current.postMessage({ action: 'stop' });
+    }
   }, []);
 
   const toggleTimer = useCallback(() => {
-    setTimerActive((prev) => !prev);
-  }, []);
+    setTimerActive((prev) => {
+      const nextActive = !prev;
+      if (nextActive) {
+        // Start the timer
+        if (workerRef.current) {
+          workerRef.current.postMessage({
+            action: 'start',
+            remainingSeconds,
+            devSpeed: getDevSpeed()
+          });
+        }
+      } else {
+        // Stop the timer
+        if (workerRef.current) {
+          workerRef.current.postMessage({ action: 'stop' });
+        }
+      }
+      return nextActive;
+    });
+  }, [remainingSeconds]);
 
   const resetTimer = useCallback(() => {
     setTimerActive(false);
     setPhase('work');
     setShowBreakPrompt(false);
     setRemainingSeconds(workMinutes * 60);
+    // Reset the worker
+    if (workerRef.current) {
+      workerRef.current.postMessage({
+        action: 'reset',
+        remainingSeconds: workMinutes * 60,
+        devSpeed: getDevSpeed()
+      });
+    }
   }, [workMinutes]);
 
   return {
