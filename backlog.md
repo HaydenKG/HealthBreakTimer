@@ -1,1 +1,3 @@
 - change picsum by https://static.photos/nature/1200x630 or mix them
+- investigate flowtime as alternative mode to pomodoro 
+- investigate self set goal time boxing mode to have own rhythm and don't stop the flow

@@ -9,6 +9,7 @@ import {
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { GLASS_BORDER } from './styles';
 import TimerWorker from './timeWorker?worker';
+import { clearTabTitle, setTabTitle } from './utils';
 
 type PresetKey = '25:5' | '50:10';
 
@@ -66,6 +67,10 @@ export function usePomodoroTimer() {
 
       if (type === 'tick') {
         setRemainingSeconds(newRemainingSeconds);
+        if (newRemainingSeconds % 60 === 0 && phase === "work") {
+          const remainingMinutes = Math.round(newRemainingSeconds / 60);
+          setTabTitle(`${remainingMinutes} min`);
+        }
       }
     };
 
@@ -73,7 +78,7 @@ export function usePomodoroTimer() {
     return () => {
       worker.removeEventListener('message', handleMessage);
     };
-  }, []);
+  }, [phase]);
 
   // Handle timer completion
   useEffect(() => {
@@ -83,6 +88,7 @@ export function usePomodoroTimer() {
           playWorkDoneSound();
           setShowBreakPrompt(true);
           setPhase('break');
+          setTabTitle('Break')
           setRemainingSeconds(breakMinutes * 60);
           // Reset to break time and resume countdown
           if (workerRef.current) {
@@ -96,6 +102,7 @@ export function usePomodoroTimer() {
           setShowBreakPrompt(false);
           setPhase('work');
           setTimerActive(false);
+          clearTabTitle();
           setRemainingSeconds(workMinutes * 60);
           // Stop the timer and wait for user to manually start
           if (workerRef.current) {
@@ -112,6 +119,7 @@ export function usePomodoroTimer() {
     setSelectedPreset(preset);
     setWorkMinutes(next.work);
     setBreakMinutes(next.rest);
+    clearTabTitle();
     setPhase('work');
     setTimerActive(false);
     setShowBreakPrompt(false);
