@@ -7,8 +7,8 @@ export const BOX_BREATH_PHASES = [
   'Hold'
 ] as const;
 
-export function getBreathPhaseDuration(round: number) {
-  return BOX_BREATH_BASE_DURATION + round * BOX_BREATH_INCREMENT;
+export function getBreathPhaseDuration() {
+  return BOX_BREATH_BASE_DURATION;
 }
 
 export function playNotificationSound() {

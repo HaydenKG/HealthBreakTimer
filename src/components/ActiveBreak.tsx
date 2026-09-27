@@ -47,6 +47,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         if (!stepStarted) startStep();
+        else advanceStep();
       }
     };
     window.addEventListener('keydown', onKey);
@@ -71,7 +72,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
     } else if (currentStep.type === 'box-breathing') {
       setBreathRound(0);
       setBreathPhaseIndex(0);
-      setSecondsLeft(getBreathPhaseDuration(0));
+      setSecondsLeft(getBreathPhaseDuration());
       setBreathAnimKey((k) => k + 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,14 +109,14 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
         const nextPhase = breathPhaseIndex + 1;
         if (nextPhase < BOX_BREATH_PHASES.length) {
           setBreathPhaseIndex(nextPhase);
-          setSecondsLeft(getBreathPhaseDuration(breathRound));
+          setSecondsLeft(getBreathPhaseDuration());
           setBreathAnimKey((k) => k + 1);
         } else {
           const nextRound = breathRound + 1;
           if (nextRound < currentStep.rounds) {
             setBreathRound(nextRound);
             setBreathPhaseIndex(0);
-            setSecondsLeft(getBreathPhaseDuration(nextRound));
+            setSecondsLeft(getBreathPhaseDuration());
             setBreathAnimKey((k) => k + 1);
           } else {
             advanceStep();

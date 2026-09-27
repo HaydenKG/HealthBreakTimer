@@ -17,7 +17,7 @@ export function BoxBreathingStep({
   breathAnimKey,
   onSkip
 }: BoxBreathingStepProps) {
-  const phaseDuration = getBreathPhaseDuration(breathRound);
+  const phaseDuration = getBreathPhaseDuration();
 
   // Phase 0 = Breathe In (0→100%), Phase 1 = Hold (freeze at 100%),
   // Phase 2 = Breathe Out (100→0%), Phase 3 = Hold (freeze at 0%)
