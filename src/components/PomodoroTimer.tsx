@@ -9,8 +9,9 @@ import {
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { GLASS_BORDER } from './styles';
 import TimerWorker from './timeWorker?worker';
-import { clearTabTitle, setTabTitle } from './utils';
+import { clearTabTitle, setTabTitle, WORK_DONE_SOUND } from './utils';
 
+console.log(WORK_DONE_SOUND)
 type PresetKey = '25:5' | '50:10';
 
 /** Dev helper: set localStorage key 'DEV_TIMER_SPEED' to a number to fast-forward
@@ -22,8 +23,6 @@ function getDevSpeed(): number {
   const n = Number(raw);
   return Number.isFinite(n) && n > 0 ? n : 1;
 }
-
-const WORK_DONE_SOUND = `${import.meta.env.BASE_URL}/sounds/Instrument.wav`;
 
 function playWorkDoneSound() {
   const audio = new Audio(WORK_DONE_SOUND);

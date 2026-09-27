@@ -9,6 +9,7 @@ import {
   BoxBreathingStep,
   BodyPromptStep
 } from './break-components';
+import { NOTIFICATION_SOUND } from './utils';
 
 interface ActiveBreakProps {
   onComplete: () => void;
@@ -124,7 +125,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
         }
       } else {
         if (['eyes-closed', 'look-distance'].includes(currentStep.type)) {
-          new Audio(`${import.meta.env.BASE_URL}sounds/ShadowSoft.wav`)
+          new Audio(NOTIFICATION_SOUND)
             .play()
             .catch(() => {});
         }
