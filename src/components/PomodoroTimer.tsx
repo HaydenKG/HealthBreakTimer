@@ -171,7 +171,7 @@ export function usePomodoroTimer() {
     selectedPreset,
     workMinutes,
     breakMinutes,
-    phase,
+    isWorkPhase: phase === "work",
     timerActive,
     remainingSeconds,
     showBreakPrompt,
@@ -191,7 +191,7 @@ export function PomodoroTimer({
   selectedPreset,
   workMinutes,
   breakMinutes,
-  phase,
+  isWorkPhase,
   timerActive,
   remainingSeconds,
   showBreakPrompt,
@@ -236,7 +236,7 @@ export function PomodoroTimer({
           variant="overline"
           sx={{ opacity: 0.7, letterSpacing: 2, fontSize: '0.75rem' }}
         >
-          {phase === 'work' ? 'Focus' : 'Break'}
+          {isWorkPhase ? 'Focus' : 'Break'}
         </Typography>
         <Typography
           variant="h2"
@@ -273,7 +273,7 @@ export function PomodoroTimer({
           onClick={resetTimer}
           sx={{ color: 'rgba(255,255,255,0.6)' }}
         >
-          Reset
+          {isWorkPhase ? "Reset" : "New session"}
         </Button>
       </Stack>
 
@@ -344,21 +344,7 @@ export function PomodoroTimer({
               >
                 Active break
               </Button>
-            )}
-            <Button
-              size="small"
-              variant="text"
-              onClick={() => setShowBreakPrompt(false)}
-              sx={{
-                fontSize: '0.7rem',
-                py: 0.25,
-                px: 0.5,
-                color: 'rgba(255,255,255,0.4)',
-                minWidth: 0
-              }}
-            >
-              ✕
-            </Button>
+            )}  
           </Stack>
         </Box>
       </Collapse>
