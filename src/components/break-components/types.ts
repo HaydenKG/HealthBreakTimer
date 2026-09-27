@@ -1,33 +1,46 @@
+export const BreakType = {
+  EyesClosed: "eyes-closed",
+  LookDistance: "look-distance",
+  BoxBreathing: "box-breathing",
+  BodyPrompt: "body-prompt",
+} as const;
+
+export type BreakTypeValue = typeof BreakType[keyof typeof BreakType];
+
 export type BreakStep =
-  | { type: 'eyes-closed'; duration: number }
-  | { type: 'look-distance'; duration: number }
-  | { type: 'box-breathing'; rounds: number }
-  | { type: 'body-prompt'; message: string };
+  | { type: typeof BreakType.EyesClosed; duration: number }
+  | { type: typeof BreakType.LookDistance; duration: number }
+  | { type: typeof BreakType.BoxBreathing; rounds: number }
+  | { type: typeof BreakType.BodyPrompt; message: string };
+
 
 export function getStepLabel(step: BreakStep): string {
   switch (step.type) {
-    case 'eyes-closed':
-      return 'Close your eyes';
-    case 'look-distance':
-      return 'Look into the distance';
-    case 'box-breathing':
-      return 'Box Breathing';
-    case 'body-prompt':
+    case BreakType.EyesClosed:
+      return "Close your eyes";
+    case BreakType.LookDistance:
+      return "Look into the distance";
+    case BreakType.BoxBreathing:
+      return "Box Breathing";
+    case BreakType.BodyPrompt:
       return step.message;
   }
 }
 
 export const BREAK_STEPS: BreakStep[] = [
-  { type: 'eyes-closed', duration: 15 },
-  { type: 'look-distance', duration: 15 },
-  { type: 'box-breathing', rounds: 3 },
+  { type: BreakType.EyesClosed, duration: 15 },
+  { type: BreakType.LookDistance, duration: 15 },
+  { type: BreakType.BoxBreathing, rounds: 3 },
   {
-    type: 'body-prompt',
-    message: 'Roll your shoulders slowly — forward, then backward'
+    type: BreakType.BodyPrompt,
+    message: "Roll your shoulders slowly — forward, then backward",
   },
   {
-    type: 'body-prompt',
-    message: 'Unclench your jaw. Let it hang loose.'
+    type: BreakType.BodyPrompt,
+    message: "Unclench your jaw. Let it hang loose.",
   },
-  { type: 'body-prompt', message: 'Shake out your hands freely!' }
+  {
+    type: BreakType.BodyPrompt,
+    message: "Shake out your hands freely!",
+  },
 ];

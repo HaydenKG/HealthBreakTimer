@@ -10,6 +10,7 @@ import {
   BodyPromptStep
 } from './break-components';
 import { NOTIFICATION_SOUND } from './utils';
+import { BreakType } from './break-components/types';
 
 interface ActiveBreakProps {
   onComplete: () => void;
@@ -66,8 +67,8 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
     }
 
     if (
-      currentStep.type === 'eyes-closed' ||
-      currentStep.type === 'look-distance'
+      currentStep.type === BreakType.EyesClosed ||
+      currentStep.type === BreakType.LookDistance
     ) {
       setSecondsLeft(currentStep.duration);
     } else if (currentStep.type === 'box-breathing') {
@@ -124,7 +125,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
           }
         }
       } else {
-        if (['eyes-closed', 'look-distance'].includes(currentStep.type)) {
+        if ([BreakType.EyesClosed, BreakType.LookDistance].includes(currentStep.type)) {
           new Audio(NOTIFICATION_SOUND)
             .play()
             .catch(() => {});
@@ -142,7 +143,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
     if (!currentStep) return null;
 
     switch (currentStep.type) {
-      case 'eyes-closed':
+      case BreakType.EyesClosed:
         return (
           <TimedStep
             title="Close your eyes"
@@ -151,7 +152,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
             onSkip={advanceStep}
           />
         );
-      case 'look-distance':
+      case BreakType.LookDistance:
         return (
           <TimedStep
             title="Look into the distance"
@@ -161,7 +162,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
             onSkip={advanceStep}
           />
         );
-      case 'box-breathing':
+      case BreakType.BoxBreathing:
         return (
           <BoxBreathingStep
             breathRound={breathRound}
@@ -171,7 +172,7 @@ export function ActiveBreak({ onComplete }: ActiveBreakProps) {
             onSkip={advanceStep}
           />
         );
-      case 'body-prompt':
+      case BreakType.BodyPrompt:
         return (
           <BodyPromptStep message={currentStep.message} onSkip={advanceStep} />
         );
